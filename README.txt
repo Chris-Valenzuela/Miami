@@ -6,5 +6,5 @@ The three views are:
     - 'bottom': Which makes a copy of the table and pastes it at the bottom of the table (without creating a new worksheet)
 
 To run this:
-    - python miami.py - which will prompt the type of view you want. 
+    - python miami_3.5.py - which will prompt the type of view you want. 
     - 'side', 'end', & 'bottom'
