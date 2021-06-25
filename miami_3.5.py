@@ -16,12 +16,13 @@ xls = pd.ExcelFile(filename)
 #not sure why this needs to be out here but it does. take a look at load_workbook and openpyxl for more understanding TO DO 
 book = load_workbook(filename)
 
+
 index = 3
-for tester, sheet in enumerate(xls.sheet_names[2:9]):
+for tester, sheet in enumerate(xls.sheet_names[2:]):
     # print(sheet)
     # print(index)
     sheet_name = sheet
-    print(sheet_name)
+    
 
     # sheet_name = 'T1'
 
@@ -117,7 +118,7 @@ for tester, sheet in enumerate(xls.sheet_names[2:9]):
 
 
 
-    normalCol = list(normalized_df.columns)
+    
 
     #TO DO: make sure each index is unique. temp fix is "reset_inndex(drop=True)"
     # normalized_df = normalized_df.reset_index(drop=True).style.background_gradient(cmap='viridis')
@@ -126,7 +127,7 @@ for tester, sheet in enumerate(xls.sheet_names[2:9]):
     
 
     if typeofrun == 'side':
-
+    
         writeoutput = 'datasets/ChaseCAExample_side.xlsx'
         finalsheetname = sheet_name + '_Heatmap'
         book.create_sheet(finalsheetname,index)
@@ -143,7 +144,7 @@ for tester, sheet in enumerate(xls.sheet_names[2:9]):
         
         writeoutput = 'datasets/ChaseCAExample_bottom.xlsx'
         finalsheetname = sheet_name
-        book.create_sheet(finalsheetname)
+        # book.create_sheet(sheet_name)
         initialrow = len(df.index) + 5
         
         
@@ -151,16 +152,22 @@ for tester, sheet in enumerate(xls.sheet_names[2:9]):
         print('This type of run does not exist.')
         break
 
+    #this creates the new excel file
     # writer = pd.ExcelWriter(filename, engine='openpyxl') 
     
-    
+    #this create new excel file with new name
     writer = pd.ExcelWriter(writeoutput, engine='openpyxl') 
+    #creates a book for that excel? still not sure
     writer.book = book
 
+    #each worksheet is created in that new excel coming from the load_workbook excel and put in a dictionary
     writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
-    normalized_df.to_excel(writer, finalsheetname, columns=normalCol, startrow = initialrow)
     
-    writer.save()   
+    # print(finalsheetname)
+    normalized_df.to_excel(writer, finalsheetname, columns=normalCol, startrow = initialrow)
+
+print(writer.sheets)
+writer.save()   
 
 
 
